@@ -16,6 +16,7 @@ RUN pnpm install --frozen-lockfile
 
 # ── Builder ───────────────────────────────────────────────────────────────────
 FROM base AS builder
+ENV DB_URL="postgresql://dummy:dummy@localhost:5432/dummy"
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/packages/server/node_modules ./packages/server/node_modules
