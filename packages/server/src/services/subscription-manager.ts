@@ -65,7 +65,7 @@ export async function getSubscriptions(): Promise<Subscription[]> {
   const rows = await prisma.subscription.findMany({
     orderBy: { createdAt: "desc" },
   });
-  return rows.map((r) => ({
+  return rows.map((r: any) => ({
     id: r.id,
     emitter: r.emitter,
     eventSig: r.eventSig,
