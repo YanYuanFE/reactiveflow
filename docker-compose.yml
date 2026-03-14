@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  server:
+    build:
+      context: .
+      dockerfile: packages/server/Dockerfile
+    container_name: reactiveflow-server
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      DATABASE_URL: ${DATABASE_URL}
+      PRIVATE_KEY: ${PRIVATE_KEY}
+      REACTIVE_FLOW_ADDRESS: ${REACTIVE_FLOW_ADDRESS}
+      RPC_URL: ${RPC_URL:-https://dream-rpc.somnia.network}
+    networks:
+      - dokploy-network
+
+  frontend:
+    build:
+      context: .
+      dockerfile: packages/frontend/Dockerfile
+      args:
+        VITE_WALLETCONNECT_PROJECT_ID: ${VITE_WALLETCONNECT_PROJECT_ID:-}
+    container_name: reactiveflow-frontend
+    restart: unless-stopped
+    depends_on:
+      - server
+    networks:
+      - dokploy-network
+
+networks:
+  dokploy-network:
+    external: true

@@ -1,0 +1,18 @@
+{
+  "name": "reactiveflow",
+  "version": "0.1.0",
+  "private": true,
+  "description": "On-chain IFTTT workflow orchestrator for Somnia",
+  "scripts": {
+    "dev:frontend": "pnpm --filter @reactiveflow/frontend dev",
+    "dev:server": "pnpm --filter @reactiveflow/server dev",
+    "dev": "pnpm run dev:server & pnpm run dev:frontend",
+    "build:contracts": "pnpm --filter @reactiveflow/contracts compile",
+    "test:contracts": "pnpm --filter @reactiveflow/contracts test",
+    "deploy": "pnpm --filter @reactiveflow/contracts deploy",
+    "build:frontend": "pnpm --filter @reactiveflow/frontend build"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

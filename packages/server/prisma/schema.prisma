@@ -1,0 +1,44 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Event {
+  id              String   @id // txHash-logIndex
+  type            String   // "FlowExecuted" | "AlertEmitted"
+  flowId          String   @map("flow_id")
+  owner           String
+  success         Boolean?
+  message         String?
+  blockNumber     String   @map("block_number")
+  transactionHash String   @map("transaction_hash")
+  timestamp       DateTime @default(now())
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  @@index([flowId])
+  @@index([blockNumber])
+  @@index([timestamp(sort: Desc)])
+  @@map("events")
+}
+
+model Subscription {
+  id        String   @id
+  emitter   String
+  eventSig  String   @map("event_sig")
+  name      String
+  txHash    String?  @map("tx_hash")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("subscriptions")
+}
+
+model IndexerState {
+  key   String @id
+  value String
+
+  @@map("indexer_state")
+}

@@ -1,0 +1,26 @@
+{
+  "name": "@reactiveflow/contracts",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "deploy": "hardhat run scripts/deploy.ts --network somniaTestnet",
+    "setup-demo": "hardhat run scripts/setup-demo-flows.ts --network somniaTestnet",
+    "create-subs": "hardhat run scripts/create-subscriptions.ts --network somniaTestnet"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox-viem": "^5.0.0",
+    "@openzeppelin/contracts": "^5.6.1",
+    "@types/node": "^20.0.0",
+    "dotenv": "^16.3.0",
+    "hardhat": "^3.0.0",
+    "tsx": "^4.21.0",
+    "typescript": "^5.3.0",
+    "viem": "^2.43.0"
+  },
+  "dependencies": {
+    "@somnia-chain/reactivity": "^0.1.10"
+  }
+}
