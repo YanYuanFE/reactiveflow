@@ -20,17 +20,20 @@ WORKDIR /app/packages/server
 RUN pnpm build
 
 # ── Runner ────────────────────────────────────────────────────────────────────
-FROM node:20-alpine AS runner
-RUN corepack enable && corepack prepare pnpm@9.0.0 --activate
+FROM base AS runner
 WORKDIR /app
 
-COPY pnpm-workspace.yaml ./
-COPY package.json pnpm-lock.yaml ./
+# Copy full deps (prisma CLI needed for generate/db push at startup)
+COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /app/packages/server/node_modules ./packages/server/node_modules
+COPY pnpm-workspace.yaml package.json pnpm-lock.yaml ./
 COPY packages/server/package.json ./packages/server/
-RUN pnpm install --frozen-lockfile --prod
 
-# Copy prisma schema and generate client
+# Copy prisma schema + config
 COPY packages/server/prisma ./packages/server/prisma
+COPY packages/server/prisma.config.ts ./packages/server/prisma.config.ts
+
+# Generate prisma client
 RUN cd packages/server && npx prisma generate
 
 # Copy compiled output
@@ -45,4 +48,4 @@ WORKDIR /app/packages/server
 EXPOSE 3001
 ENV NODE_ENV=production
 ENV PORT=3001
-CMD ["node", "dist/index.js"]
+CMD ["sh", "-c", "npx prisma db push --skip-generate && node dist/index.js"]

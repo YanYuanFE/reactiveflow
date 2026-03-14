@@ -1,6 +1,10 @@
-# ReactiveFlow
+<p align="center">
+  <img src="logo/reactiveflow-logo.png" alt="ReactiveFlow Logo" width="400" />
+</p>
 
-**On-chain IFTTT workflow orchestrator powered by Somnia Reactivity.**
+<h1 align="center">ReactiveFlow</h1>
+
+<p align="center"><strong>On-chain IFTTT workflow orchestrator powered by Somnia Reactivity.</strong></p>
 
 ReactiveFlow lets users create automated workflows that react to on-chain events — no bots, no keepers, no off-chain infrastructure. Define a trigger, set a condition, pick an action. The Somnia Reactivity precompile handles the rest.
 
@@ -121,7 +125,7 @@ PRIVATE_KEY=0x...
 # packages/server/.env
 DATABASE_URL="postgresql://user:pass@localhost:5432/reactiveflow"
 PRIVATE_KEY=0x...
-REACTIVE_FLOW_ADDRESS=0xd87d10cc49c3d04dac256b533f95547017204e16
+REACTIVE_FLOW_ADDRESS=0x3d0504bbf7a41138da1a48e84accb1ab393d2b3f
 ```
 
 ### 3. Deploy contracts (optional — already deployed on Somnia Testnet)
@@ -152,7 +156,7 @@ pnpm dev
 
 | Contract | Address |
 |----------|---------|
-| ReactiveFlow | `0xd87d10cc49c3d04dac256b533f95547017204e16` |
+| ReactiveFlow | `0x3d0504bbf7a41138da1a48e84accb1ab393d2b3f` |
 | Reactivity Precompile | `0x0000000000000000000000000000000000000100` |
 | DIA Oracle V2 | `0xbA0E0750A56e995506CA458b2BdD752754CF39C4` |
 

@@ -13,6 +13,9 @@ RUN pnpm install --frozen-lockfile
 FROM base AS builder
 ARG VITE_WALLETCONNECT_PROJECT_ID
 ENV VITE_WALLETCONNECT_PROJECT_ID=${VITE_WALLETCONNECT_PROJECT_ID}
+# VITE_API_URL intentionally unset — empty string makes frontend use
+# same-origin requests, which nginx proxies to the backend container
+ENV VITE_API_URL=""
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/packages/frontend/node_modules ./packages/frontend/node_modules
