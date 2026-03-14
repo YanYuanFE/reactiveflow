@@ -27,7 +27,7 @@ export const somniaTestnet: Chain = {
 // ─── wagmi + RainbowKit Config ──────────────────────────────────────────────
 export const config = getDefaultConfig({
   appName: "ReactiveFlow",
-  projectId: import.meta.env.VITE_WALLETCONNECT_PROJECT_ID ?? "PLACEHOLDER",
+  projectId: 'b1daffdd6f590ce1fe948af2022b4ec1',
   chains: [somniaTestnet],
   ssr: false,
 });

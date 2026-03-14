@@ -7,6 +7,9 @@ WORKDIR /app
 COPY pnpm-workspace.yaml ./
 COPY package.json pnpm-lock.yaml ./
 COPY packages/server/package.json ./packages/server/
+# Prisma postinstall needs schema + config to run prisma generate
+COPY packages/server/prisma ./packages/server/prisma
+COPY packages/server/prisma.config.ts ./packages/server/prisma.config.ts
 RUN pnpm install --frozen-lockfile
 
 # ── Builder ───────────────────────────────────────────────────────────────────
