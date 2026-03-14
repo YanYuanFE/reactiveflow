@@ -8,7 +8,7 @@ const { PrismaClient } = require("../../node_modules/.prisma/client");
 
 // Prisma uses ?schema=X for PG schema. Strip it for pg driver
 // and pass search_path via connection options instead.
-const dbUrl = process.env.DATABASE_URL!;
+const dbUrl = process.env.DB_URL!;
 const schemaMatch = dbUrl.match(/[?&]schema=([^&]+)/);
 const schema = schemaMatch ? schemaMatch[1] : "public";
 const cleanUrl = dbUrl.replace(/[?&]schema=[^&]+/, (m) =>

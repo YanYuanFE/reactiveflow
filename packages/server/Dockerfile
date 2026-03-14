@@ -10,6 +10,8 @@ COPY packages/server/package.json ./packages/server/
 # Prisma postinstall needs schema + config to run prisma generate
 COPY packages/server/prisma ./packages/server/prisma
 COPY packages/server/prisma.config.ts ./packages/server/prisma.config.ts
+# Dummy DB_URL for prisma generate during postinstall (not used for actual connection)
+ENV DB_URL="postgresql://dummy:dummy@localhost:5432/dummy"
 RUN pnpm install --frozen-lockfile
 
 # ── Builder ───────────────────────────────────────────────────────────────────
@@ -36,7 +38,8 @@ COPY packages/server/package.json ./packages/server/
 COPY packages/server/prisma ./packages/server/prisma
 COPY packages/server/prisma.config.ts ./packages/server/prisma.config.ts
 
-# Generate prisma client
+# Generate prisma client (dummy URL for build, real URL injected at runtime)
+ENV DB_URL="postgresql://dummy:dummy@localhost:5432/dummy"
 RUN cd packages/server && npx prisma generate
 
 # Copy compiled output

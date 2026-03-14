@@ -3,7 +3,7 @@ import "dotenv/config";
 export const config = {
   port: parseInt(process.env.PORT || "3001"),
   rpcUrl: process.env.RPC_URL || "https://dream-rpc.somnia.network",
-  databaseUrl: process.env.DATABASE_URL || "",
+  databaseUrl: process.env.DB_URL || "",
   chainId: 50312,
   reactiveFlowAddress:
     process.env.REACTIVE_FLOW_ADDRESS ||

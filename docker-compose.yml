@@ -10,7 +10,7 @@ services:
     environment:
       NODE_ENV: production
       PORT: 3001
-      DATABASE_URL: ${DATABASE_URL}
+      DB_URL: ${DB_URL}
       PRIVATE_KEY: ${PRIVATE_KEY}
       REACTIVE_FLOW_ADDRESS: ${REACTIVE_FLOW_ADDRESS}
       RPC_URL: ${RPC_URL:-https://dream-rpc.somnia.network}
