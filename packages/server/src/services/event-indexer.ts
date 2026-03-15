@@ -144,7 +144,10 @@ export function startEventIndexer() {
     config.reactiveFlowAddress,
   );
 
+  let isPolling = false;
   const pollInterval = setInterval(async () => {
+    if (isPolling) return; // prevent overlapping polls
+    isPolling = true;
     try {
       const headBlock = await client.getBlockNumber();
 
@@ -156,10 +159,15 @@ export function startEventIndexer() {
           ? headBlock - 500n
           : 0n;
 
-      if (fromBlock > headBlock) return; // nothing new
+      if (fromBlock > headBlock) { isPolling = false; return; }
 
       // Somnia RPC limits getLogs to 1000 blocks per request
       const MAX_BLOCK_RANGE = 900n;
+      // Catch up in batches — up to 50 batches per poll (45,000 blocks)
+      const MAX_BATCHES = 50;
+      let batchCount = 0;
+
+      while (fromBlock <= headBlock && batchCount < MAX_BATCHES) {
       const toBlock =
         headBlock - fromBlock > MAX_BLOCK_RANGE
           ? fromBlock + MAX_BLOCK_RANGE
@@ -209,10 +217,22 @@ export function startEventIndexer() {
       }
 
       await setLastIndexedBlock(toBlock);
+      fromBlock = toBlock + 1n;
+      batchCount++;
+      }
+
+      if (batchCount > 0) {
+        const gap = headBlock - fromBlock;
+        if (gap > 0n) {
+          console.log(`Event indexer: catching up, ${gap} blocks behind`);
+        }
+      }
     } catch (error: any) {
       console.error("Event indexer poll error:", error.message);
+    } finally {
+      isPolling = false;
     }
-  }, 10_000);
+  }, 5_000);
 
   return () => {
     clearInterval(pollInterval);
